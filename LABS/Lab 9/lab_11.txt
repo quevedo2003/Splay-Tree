@@ -1,0 +1,2 @@
+What is the big O runtime of insert on a set? A map?
+The big O runtime of the insert on a set is O( log(n) ) as its time is dependent of the length of the set.
