@@ -1,3 +1,5 @@
+#ifndef SPLAY_TREE_H
+#define SPLAY_TREE_H
 #include <iostream>
 #include <ostream>
 #include <string>
@@ -40,3 +42,5 @@ class STree
         void preOrder();
         void dot_gen(const std::string &filename);
 };
+
+#endif
