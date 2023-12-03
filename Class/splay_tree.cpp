@@ -62,7 +62,7 @@ STNode *STree::splay(STNode *root, std::string data, int& node_count)
         {
             // Zig-Zig (Left Left)
             // Recursively bring the data as the root of left-left
-            root->left->left = splay(root->left->left, data);
+            root->left->left = splay(root->left->left, data, node_count);
 
             // Perform a right rotation for the root, followed by the second rotation
             root = rightRotate(root);
@@ -71,7 +71,7 @@ STNode *STree::splay(STNode *root, std::string data, int& node_count)
         {
             // Zig-Zag (Left Right)
             // Recursively bring the data as the root of left-right
-            root->left->right = splay(root->left->right, data);
+            root->left->right = splay(root->left->right, data, node_count);
 
             // Perform a left rotation for root->left if needed
             if (root->left->right != nullptr)
@@ -108,7 +108,7 @@ STNode *STree::splay(STNode *root, std::string data, int& node_count)
         {
             // Zag-Zig (Right Left)
             // Recursively bring the data as the root of right-left
-            root->right->left = splay(root->right->left, data);
+            root->right->left = splay(root->right->left, data, node_count);
 
             // Perform a right rotation for root->right if needed
             if (root->right->left != nullptr)
@@ -120,7 +120,7 @@ STNode *STree::splay(STNode *root, std::string data, int& node_count)
         {
             // Zag-Zag (Right Right)
             // Recursively bring the data as the root of right-right
-            root->right->right = splay(root->right->right, data);
+            root->right->right = splay(root->right->right, data, node_count);
 
             // Perform a left rotation for the root if needed
             root = leftRotate(root);
@@ -179,7 +179,8 @@ STNode *STree::insert(std::string data, STNode *root)
     {
         return new STNode(data);
     }
-    root = splay(root, data);
+    int count_node = 0;
+    root = splay(root, data, count_node);
 
     if (root->data == data)
     {
