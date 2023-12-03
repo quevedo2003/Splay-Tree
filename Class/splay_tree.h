@@ -3,6 +3,8 @@
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <sstream>
+
 class STNode
 {
     private:
@@ -30,6 +32,9 @@ class STree
         void preOrder(STNode* root);
         void dot_gen(STNode *node, std::ofstream &dotFile);
 
+       //Json
+       void toJsonHelper(STNode* node, std::ostream& out);
+
     public:
         STree();
         ~STree();
@@ -41,6 +46,11 @@ class STree
         void remove(std::string data);
         void preOrder();
         void dot_gen(const std::string &filename);
+
+        
+        //void toJson();
+        void toJson(std::ostream& out);
+
 };
 
 #endif
