@@ -1,0 +1,5 @@
+Flask Setup on Mac:
+brew install python;
+pip install Flask
+
+
