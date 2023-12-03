@@ -21,7 +21,8 @@ class STree
     private:
         
         STNode* root;
-        STNode* splaySearch(std::string data, STNode* root);
+        //Setting up a counter variable
+        STNode* splaySearch(std::string data, STNode* root, int& node_count);
         STNode* insert(std::string data, STNode* root);
         STNode* remove(std::string data, STNode* root);
         void preOrder(STNode* root);
@@ -32,7 +33,7 @@ class STree
         ~STree();
         STNode* rightRotate(STNode*);
         STNode* leftRotate(STNode*);
-        STNode* splay(STNode*, std::string);
+        STNode* splay(STNode*, std::string, int& node_count);
         STNode* splaySearch(std::string);
         void insert(std::string data);
         void remove(std::string data);
