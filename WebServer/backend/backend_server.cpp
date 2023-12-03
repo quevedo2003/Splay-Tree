@@ -7,8 +7,8 @@ int main(){
 
 
     // backend.Get("/get_tree", [&](const httplib::Request& /*req*/, httplib::Response &res) {
-    //     res.set_content(history, "application/json")
-    // })
+    //     res.set_content(history., "application/json");
+    // });
     
     backend.listen("localhost",8080);
 
