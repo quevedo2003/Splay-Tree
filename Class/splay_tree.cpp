@@ -37,12 +37,13 @@ STNode *STree::leftRotate(STNode *x)
 
 // This function modifies the tree and returns the modified root.
 // It takes the data number requested and brings it to the top.
-STNode *STree::splay(STNode *root, std::string data)
+STNode *STree::splay(STNode *root, std::string data, int& node_count)
 {
     // Base cases:
     // If the root is NULL or the data is present at the root, return the root
     if (root == nullptr || root->data == data)
     {
+        node_count++;
         return root;
     }
 
@@ -52,6 +53,7 @@ STNode *STree::splay(STNode *root, std::string data)
         // If the left child is NULL, return the root (data not found)
         if (root->left == nullptr)
         {
+            node_count++;
             return root;
         }
 
@@ -82,10 +84,12 @@ STNode *STree::splay(STNode *root, std::string data)
         // Return the updated root
         if (root->left == nullptr)
         {
+            node_count++;
             return root;
         }
         else
         {
+            node_count++;
             return rightRotate(root);
         }
     }
@@ -95,6 +99,7 @@ STNode *STree::splay(STNode *root, std::string data)
         // If the right child is NULL, return the root (data not found)
         if (root->right == nullptr)
         {
+            node_count++;
             return root;
         }
 
@@ -125,24 +130,28 @@ STNode *STree::splay(STNode *root, std::string data)
         // Return the updated root
         if (root->right == nullptr)
         {
+            node_count++;
             return root;
         }
         else
         {
+            node_count++;
             return leftRotate(root);
         }
     }
 }
 
 // Private function to perform splaying search
-STNode *STree::splaySearch(std::string data, STNode *root)
+STNode *STree::splaySearch(std::string data, STNode *root, int& node_count)
 {
-    return splay(root, data); // Splay the found/positioned node or return current root
+    return splay(root, data, node_count); // Splay the found/positioned node or return current root
 }
 // Public search function to find stord item.
 STNode *STree::splaySearch(std::string data)
 {
-    this->root = splaySearch(data, this->root);
+    int node_count = 0;
+    this->root = splaySearch(data, this->root, node_count);
+    std::cout <<"Node counter = " << node_count << std::endl;
     return this->root;
 }
 
