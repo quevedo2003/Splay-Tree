@@ -1,5 +1,8 @@
 #include "splay_tree.h"
 #include <fstream>
+//Also Including the time measurement header here to allow for easier access across dif directories
+#include "time_measurement.h"
+
 // NODE FUNCTIONS
 
 // Allocate a new node with the given value and NULL left and right pointers.
