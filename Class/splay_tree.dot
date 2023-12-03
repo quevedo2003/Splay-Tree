@@ -1,0 +1,7 @@
+digraph SplayTree {
+	banana;
+	banana -> apple;
+	apple;
+	banana -> orange;
+	orange;
+}

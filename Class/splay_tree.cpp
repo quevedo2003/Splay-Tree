@@ -260,3 +260,25 @@ void STree::dot_gen(STNode *node, std::ofstream &dotFile)
         }
     }
 }
+
+
+void STree::toJsonHelper(STNode* node, std::ostream& out){
+    
+    if(node != nullptr){
+        out << "{\"name\": \"" << node->data << "\", \"children\": [";
+        toJsonHelper(node->left, out);
+        out << ",";
+        toJsonHelper(node->right, out);
+        out << "]}";
+    }
+    else{
+        out << "null";
+    }
+
+}
+
+void STree::toJson(std::ostream& out){
+    out<< "{";
+    toJsonHelper(root, out);
+    out << "}";
+}
