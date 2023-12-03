@@ -277,8 +277,10 @@ void STree::toJsonHelper(STNode* node, std::ostream& out){
 
 }
 
-void STree::toJson(std::ostream& out){
-    out<< "{";
-    toJsonHelper(root, out);
-    out << "}";
+std::string STree::toJson(){
+  
+    std::ostringstream jsonStream;
+    toJsonHelper(root, jsonStream);
+    return jsonStream.str();
+
 }

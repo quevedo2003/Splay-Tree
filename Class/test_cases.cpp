@@ -23,8 +23,8 @@ int main(){
 
     //Generation of json string to console
     std::ostringstream jsonStream;
-    tree.toJson(jsonStream);
-    std::cout << jsonStream.str() << std::endl;
+    std::string jsonString = tree.toJson();
+    std::cout << jsonString << std::endl;
 
 
 }

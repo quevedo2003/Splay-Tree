@@ -48,8 +48,8 @@ class STree
         void dot_gen(const std::string &filename);
 
         
-        //void toJson();
-        void toJson(std::ostream& out);
+        
+        std::string toJson();
 
 };
 
