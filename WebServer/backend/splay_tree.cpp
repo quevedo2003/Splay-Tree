@@ -1,5 +1,8 @@
 #include "splay_tree.h"
 #include <fstream>
+//Also Including the time measurement header here to allow for easier access across dif directories
+// #include "time_measurement.h"
+
 // NODE FUNCTIONS
 
 // Allocate a new node with the given value and NULL left and right pointers.
@@ -37,12 +40,13 @@ STNode *STree::leftRotate(STNode *x)
 
 // This function modifies the tree and returns the modified root.
 // It takes the data number requested and brings it to the top.
-STNode *STree::splay(STNode *root, std::string data)
+STNode *STree::splay(STNode *root, std::string data, int& node_count)
 {
     // Base cases:
     // If the root is NULL or the data is present at the root, return the root
     if (root == nullptr || root->data == data)
     {
+        node_count++;
         return root;
     }
 
@@ -52,6 +56,7 @@ STNode *STree::splay(STNode *root, std::string data)
         // If the left child is NULL, return the root (data not found)
         if (root->left == nullptr)
         {
+            node_count++;
             return root;
         }
 
@@ -60,7 +65,7 @@ STNode *STree::splay(STNode *root, std::string data)
         {
             // Zig-Zig (Left Left)
             // Recursively bring the data as the root of left-left
-            root->left->left = splay(root->left->left, data);
+            root->left->left = splay(root->left->left, data, node_count);
 
             // Perform a right rotation for the root, followed by the second rotation
             root = rightRotate(root);
@@ -69,7 +74,7 @@ STNode *STree::splay(STNode *root, std::string data)
         {
             // Zig-Zag (Left Right)
             // Recursively bring the data as the root of left-right
-            root->left->right = splay(root->left->right, data);
+            root->left->right = splay(root->left->right, data, node_count);
 
             // Perform a left rotation for root->left if needed
             if (root->left->right != nullptr)
@@ -82,10 +87,12 @@ STNode *STree::splay(STNode *root, std::string data)
         // Return the updated root
         if (root->left == nullptr)
         {
+            node_count++;
             return root;
         }
         else
         {
+            node_count++;
             return rightRotate(root);
         }
     }
@@ -95,6 +102,7 @@ STNode *STree::splay(STNode *root, std::string data)
         // If the right child is NULL, return the root (data not found)
         if (root->right == nullptr)
         {
+            node_count++;
             return root;
         }
 
@@ -103,7 +111,7 @@ STNode *STree::splay(STNode *root, std::string data)
         {
             // Zag-Zig (Right Left)
             // Recursively bring the data as the root of right-left
-            root->right->left = splay(root->right->left, data);
+            root->right->left = splay(root->right->left, data, node_count);
 
             // Perform a right rotation for root->right if needed
             if (root->right->left != nullptr)
@@ -115,7 +123,7 @@ STNode *STree::splay(STNode *root, std::string data)
         {
             // Zag-Zag (Right Right)
             // Recursively bring the data as the root of right-right
-            root->right->right = splay(root->right->right, data);
+            root->right->right = splay(root->right->right, data, node_count);
 
             // Perform a left rotation for the root if needed
             root = leftRotate(root);
@@ -125,24 +133,28 @@ STNode *STree::splay(STNode *root, std::string data)
         // Return the updated root
         if (root->right == nullptr)
         {
+            node_count++;
             return root;
         }
         else
         {
+            node_count++;
             return leftRotate(root);
         }
     }
 }
 
 // Private function to perform splaying search
-STNode *STree::splaySearch(std::string data, STNode *root)
+STNode *STree::splaySearch(std::string data, STNode *root, int& node_count)
 {
-    return splay(root, data); // Splay the found/positioned node or return current root
+    return splay(root, data, node_count); // Splay the found/positioned node or return current root
 }
 // Public search function to find stord item.
 STNode *STree::splaySearch(std::string data)
 {
-    this->root = splaySearch(data, this->root);
+    int node_count = 0;
+    this->root = splaySearch(data, this->root, node_count);
+    std::cout <<"Node counter = " << node_count << std::endl;
     return this->root;
 }
 
@@ -170,7 +182,8 @@ STNode *STree::insert(std::string data, STNode *root)
     {
         return new STNode(data);
     }
-    root = splay(root, data);
+    int count_node = 0;
+    root = splay(root, data, count_node);
 
     if (root->data == data)
     {
@@ -246,4 +259,32 @@ void STree::dot_gen(STNode *node, std::ofstream &dotFile)
             dot_gen(node->right, dotFile);
         }
     }
+}
+
+
+void STree::toJsonHelper(STNode* node, std::ostream& out) {
+    if (node != nullptr) {
+        out << "{\"name\": \"" << node->data << "\", \"children\": ";
+        if (node->left != nullptr || node->right != nullptr) {
+            out << "[";
+            toJsonHelper(node->left, out);
+            if (node->right != nullptr) {
+                out << ",";
+                toJsonHelper(node->right, out);
+            }
+            out << "]";
+        } else {
+            out << "[]";
+        }
+        out << "}";
+    }
+}
+
+
+std::string STree::toJson(){
+  
+    std::ostringstream jsonStream;
+    toJsonHelper(root, jsonStream);
+    return jsonStream.str();
+
 }

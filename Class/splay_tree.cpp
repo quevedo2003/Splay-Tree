@@ -277,3 +277,28 @@ void STree::file_insert(std::string file_name){
     
     table.close(); 
 }
+
+
+
+void STree::toJsonHelper(STNode* node, std::ostream& out){
+    
+    if(node != nullptr){
+        out << "{\"name\": \"" << node->data << "\", \"children\": [";
+        toJsonHelper(node->left, out);
+        out << ",";
+        toJsonHelper(node->right, out);
+        out << "]}";
+    }
+    else{
+        out << "null";
+    }
+
+}
+
+std::string STree::toJson(){
+  
+    std::ostringstream jsonStream;
+    toJsonHelper(root, jsonStream);
+    return jsonStream.str();
+
+}
