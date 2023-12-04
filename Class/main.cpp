@@ -1,14 +1,11 @@
 #include "splay_tree.h"
 #include <fstream>
 
-
-int main()
+int main(int argc, char*argv[])
 {
 STree history;
-    history.insert("test");
-    history.insert("hello");
-    history.insert("check");
-    history.insert("new");
+
+    history.file_insert(argv[1]);
     history.preOrder();
     history.splaySearch("hello");
     history.preOrder();

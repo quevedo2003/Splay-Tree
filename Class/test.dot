@@ -1,0 +1,13 @@
+digraph SplayTree {
+	http://boat.example.com/boundary.aspx#back;
+	http://boat.example.com/boundary.aspx#back -> http://www.example.com/#agreement;
+	http://www.example.com/#agreement;
+	http://www.example.com/#agreement -> http://www.example.com/activity/appliance.php;
+	http://www.example.com/activity/appliance.php;
+	http://www.example.com/activity/appliance.php -> https://example.net/animal;
+	https://example.net/animal;
+	https://example.net/animal -> https://www.example.net/act.html;
+	https://www.example.net/act.html;
+	https://www.example.net/act.html -> https://www.example.org/amount.php?books=bird&aftermath=art;
+	https://www.example.org/amount.php?books=bird&aftermath=art;
+}

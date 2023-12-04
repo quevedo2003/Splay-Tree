@@ -33,6 +33,7 @@ class STree
     public:
         STree();
         ~STree();
+        void file_insert(std::string file_name);
         STNode* rightRotate(STNode*);
         STNode* leftRotate(STNode*);
         STNode* splay(STNode*, std::string, int& node_count);
