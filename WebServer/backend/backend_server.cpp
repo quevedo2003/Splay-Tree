@@ -12,7 +12,6 @@ int main(){
 
     backend.Get("/get_tree", [&](const httplib::Request& /*req*/, httplib::Response &res) {
         res.set_content(history.toJson(), "application/json");
-        std::cout <<"HELLO";
     });
     
     backend.listen("localhost",8080);
