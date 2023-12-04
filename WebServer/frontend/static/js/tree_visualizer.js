@@ -1,6 +1,6 @@
 
-const treeWidth = 500;
-const treeHeight = 500;
+const treeWidth = document.body.clientWidth;
+const treeHeight = window.innerHeight;
 const treeLayout = d3.tree().size([treeWidth,treeHeight]);
 
 const svg = d3.select('#tree-container').append('svg')
@@ -11,9 +11,14 @@ const svg = d3.select('#tree-container').append('svg')
 
 
 function getTreeData() {
-    let response = fetch('/get_tree');
-    let treeData = response.json();
-    visualizeTree(treeData);
+    fetch('/get_tree')
+    .then(response => {
+        return response.json();
+    })
+    .then(treeData => {
+        console.log(treeData);
+        visualizeTree(treeData);
+    })
 }
 
 function visualizeTree(treeData){
@@ -26,17 +31,17 @@ function visualizeTree(treeData){
         .enter().append('path')
         .attr('class', 'link')
         .attr('d', d3.linkVertical()
-            .x(d => d.y)
-            .y(d => d,x));
+            .x(d => d.x)
+            .y(d => d.y))
+        .style('stroke-width', 1);
 
     svg.selectAll('.node')
         .data(treeNodes.descendants())
         .enter().append('circle')
         .attr('class', 'node')
-        .attr('cx', d => d.y)
-        .attr('cy', d => d.x)
+        .attr('cx', d => d.x)
+        .attr('cy', d => d.y)
         .attr('r', 5);
 }
 
-
-getTreeData();
+document.addEventListener('DOMContentLoaded', getTreeData);
