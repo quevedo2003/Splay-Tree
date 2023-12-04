@@ -1,5 +1,18 @@
 Flask Setup on Mac:
 brew install python;
 pip install Flask
+pip install requests
 
 
+to run frontend server
+python3 frontend-server.py
+
+to compile and run backend
+
+g++ -std=c++11 splay_tree.cpp backend_server.cpp -o <name of executable>
+
+./<name of executable>
+
+
+frontend and backend have to be running at same time
+start backend first and then frontend to avoid initial errors
