@@ -278,8 +278,6 @@ void STree::file_insert(std::string file_name){
     table.close(); 
 }
 
-
-
 void STree::toJsonHelper(STNode* node, std::ostream& out){
     
     if(node != nullptr){
