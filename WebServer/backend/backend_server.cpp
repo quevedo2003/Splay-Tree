@@ -10,10 +10,20 @@ int main(int argc, char *argv[]) {
     STree history;
 
     // Check if command line arguments are provided
+<<<<<<< HEAD
     if (argc == 1){
         // TODO: Add logic for handling command line arguments if needed
+=======
+    if (argc > 2) {
+        std::cout << "ERROR: INVALID CLAS" << std::endl;
+        return 0;
+    }
+    else if(argc == 2){
+        history.file_insert(argv[1]);  //Allows initialization of splay treedata via .txt file of urls
+>>>>>>> aa9679d92b98f06f2d076323cf15b77f487956d7
     }
 
+    // history.insert("hi");
     // Define an endpoint to handle GET requests for retrieving the tree data
     backend.Get("/get_tree", [&](const httplib::Request& /*req*/, httplib::Response &res) {
         try {
