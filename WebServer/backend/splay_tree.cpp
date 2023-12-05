@@ -292,3 +292,20 @@ std::string STree::toJson(){
 std::string STree::get_root(){
     return this->root->url;
 }
+
+void STree::file_insert(std::string file_name){
+    std::string line;
+    std::ifstream table;                // 1. Create instance
+    
+    table.open(file_name);                    // 2. Open the file
+    
+    if(table.fail()){                           //    Check open
+        std::cerr << "Can't open file\n";
+    }
+    
+    while(std::getline(table, line)){           // 3. get a line of data from table, store in 'line'
+    this->insert(line);
+    } 
+    
+    table.close(); 
+}

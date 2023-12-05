@@ -42,6 +42,7 @@ class STree
         STNode* leftRotate(STNode*);
         STNode* splay(STNode*, std::string, int& node_count);
         STNode* splaySearch(std::string);
+        void file_insert(std::string file_name);
         void insert(std::string url);
         void remove(std::string url);
         std::string get_root();

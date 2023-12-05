@@ -1,0 +1,6 @@
+https://www.example.org/amount.php?books=bird&aftermath=art
+https://example.net/animal
+http://www.example.com/#agreement
+https://www.example.net/act.html
+http://www.example.com/activity/appliance.php
+http://boat.example.com/boundary.aspx#back
