@@ -8,12 +8,12 @@
 class STNode
 {
     private:
-        std::string data;
+        std::string url;
         STNode* left;
         STNode* right;
 
     public:
-        STNode(std::string data);
+        STNode(std::string url);
         ~STNode();
 
     friend class STree;
@@ -26,9 +26,9 @@ class STree
         
         STNode* root;
         //Setting up a counter variable
-        STNode* splaySearch(std::string data, STNode* root, int& node_count);
-        STNode* insert(std::string data, STNode* root);
-        STNode* remove(std::string data, STNode* root);
+        STNode* splaySearch(std::string url, STNode* root, int& node_count);
+        STNode* insert(std::string url, STNode* root);
+        STNode* remove(std::string url, STNode* root);
         void preOrder(STNode* root);
         void dot_gen(STNode *node, std::ofstream &dotFile);
 
@@ -42,8 +42,9 @@ class STree
         STNode* leftRotate(STNode*);
         STNode* splay(STNode*, std::string, int& node_count);
         STNode* splaySearch(std::string);
-        void insert(std::string data);
-        void remove(std::string data);
+        void insert(std::string url);
+        void remove(std::string url);
+        std::string get_root();
         void preOrder();
         void dot_gen(const std::string &filename);
 
