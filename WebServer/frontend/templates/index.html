@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Set the character set and viewport for better rendering on different devices -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEMP</title>
+    
+    <!-- Page title -->
+    <title>Splay Tree Web Browser</title>
+    
+    <!-- Link to the external stylesheet for styling -->
     <link rel="stylesheet" href="../static/css/style.css">
+    
+    <!-- Include the D3.js library -->
     <script src="../static/js/d3.v7.js"></script>
 </head>
 <body>
+    <!-- Navigation bar -->
     <nav>
-        <h2>treetemp</h2>
+        <!-- Heading for the web browser -->
+        <h2>Web Browser</h2>
+        
+        <!-- Search input and button for entering URLs -->
         <div>
             <input type="text" id="searchBox" placeholder="Enter URL">
             <button onclick="searchString()">GO</button>
         </div>
     </nav>
 
+    <!-- Container for displaying the tree visualization -->
     <div id="tree-container"></div>
     
+    <!-- Include the JavaScript file for tree visualization -->
     <script src="../static/js/tree_visualizer.js"></script>
 </body>
 </html>
