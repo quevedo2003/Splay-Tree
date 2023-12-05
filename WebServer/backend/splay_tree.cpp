@@ -6,9 +6,9 @@
 // NODE FUNCTIONS
 
 // Allocate a new node with the given value and NULL left and right pointers.
-STNode::STNode(std::string data)
+STNode::STNode(std::string url)
 {
-    this->data = data;
+    this->url = url;
     this->left = nullptr;
     this->right = nullptr;
 }
@@ -39,42 +39,42 @@ STNode *STree::leftRotate(STNode *x)
 }
 
 // This function modifies the tree and returns the modified root.
-// It takes the data number requested and brings it to the top.
-STNode *STree::splay(STNode *root, std::string data, int& node_count)
+// It takes the url number requested and brings it to the top.
+STNode *STree::splay(STNode *root, std::string url, int& node_count)
 {
     // Base cases:
-    // If the root is NULL or the data is present at the root, return the root
-    if (root == nullptr || root->data == data)
+    // If the root is NULL or the url is present at the root, return the root
+    if (root == nullptr || root->url == url)
     {
         node_count++;
         return root;
     }
 
-    // data lies in the left subtree
-    if (root->data > data)
+    // url lies in the left subtree
+    if (root->url > url)
     {
-        // If the left child is NULL, return the root (data not found)
+        // If the left child is NULL, return the root (url not found)
         if (root->left == nullptr)
         {
             node_count++;
             return root;
         }
 
-        // data is in the left subtree
-        if (root->left->data > data)
+        // url is in the left subtree
+        if (root->left->url > url)
         {
             // Zig-Zig (Left Left)
-            // Recursively bring the data as the root of left-left
-            root->left->left = splay(root->left->left, data, node_count);
+            // Recursively bring the url as the root of left-left
+            root->left->left = splay(root->left->left, url, node_count);
 
             // Perform a right rotation for the root, followed by the second rotation
             root = rightRotate(root);
         }
-        else if (root->left->data < data)
+        else if (root->left->url < url)
         {
             // Zig-Zag (Left Right)
-            // Recursively bring the data as the root of left-right
-            root->left->right = splay(root->left->right, data, node_count);
+            // Recursively bring the url as the root of left-right
+            root->left->right = splay(root->left->right, url, node_count);
 
             // Perform a left rotation for root->left if needed
             if (root->left->right != nullptr)
@@ -98,20 +98,20 @@ STNode *STree::splay(STNode *root, std::string data, int& node_count)
     }
     else
     {
-        // Data lies in the right subtree
-        // If the right child is NULL, return the root (data not found)
+        // url lies in the right subtree
+        // If the right child is NULL, return the root (url not found)
         if (root->right == nullptr)
         {
             node_count++;
             return root;
         }
 
-        // data is in the right subtree
-        if (root->right->data > data)
+        // url is in the right subtree
+        if (root->right->url > url)
         {
             // Zag-Zig (Right Left)
-            // Recursively bring the data as the root of right-left
-            root->right->left = splay(root->right->left, data, node_count);
+            // Recursively bring the url as the root of right-left
+            root->right->left = splay(root->right->left, url, node_count);
 
             // Perform a right rotation for root->right if needed
             if (root->right->left != nullptr)
@@ -119,11 +119,11 @@ STNode *STree::splay(STNode *root, std::string data, int& node_count)
                 root->right = rightRotate(root->right);
             }
         }
-        else if (root->right->data < data)
+        else if (root->right->url < url)
         {
             // Zag-Zag (Right Right)
-            // Recursively bring the data as the root of right-right
-            root->right->right = splay(root->right->right, data, node_count);
+            // Recursively bring the url as the root of right-right
+            root->right->right = splay(root->right->right, url, node_count);
 
             // Perform a left rotation for the root if needed
             root = leftRotate(root);
@@ -145,15 +145,15 @@ STNode *STree::splay(STNode *root, std::string data, int& node_count)
 }
 
 // Private function to perform splaying search
-STNode *STree::splaySearch(std::string data, STNode *root, int& node_count)
+STNode *STree::splaySearch(std::string url, STNode *root, int& node_count)
 {
-    return splay(root, data, node_count); // Splay the found/positioned node or return current root
+    return splay(root, url, node_count); // Splay the found/positioned node or return current root
 }
 // Public search function to find stord item.
-STNode *STree::splaySearch(std::string data)
+STNode *STree::splaySearch(std::string url)
 {
     int node_count = 0;
-    this->root = splaySearch(data, this->root, node_count);
+    this->root = splaySearch(url, this->root, node_count);
     std::cout <<"Node counter = " << node_count << std::endl;
     return this->root;
 }
@@ -163,7 +163,7 @@ void STree::preOrder(STNode *root)
 {
     if (root != nullptr)
     {
-        std::cout << root->data << " ";
+        std::cout << root->url << " ";
         preOrder(root->left);
         preOrder(root->right);
     }
@@ -176,21 +176,21 @@ void STree::preOrder()
 }
 
 // Private function to inset new nodes into the tree.
-STNode *STree::insert(std::string data, STNode *root)
+STNode *STree::insert(std::string url, STNode *root)
 {
     if (!root)
     {
-        return new STNode(data);
+        return new STNode(url);
     }
     int count_node = 0;
-    root = splay(root, data, count_node);
+    root = splay(root, url, count_node);
 
-    if (root->data == data)
+    if (root->url == url)
     {
         return root;
     }
-    STNode *temp = new STNode(data);
-    if (root->data > data)
+    STNode *temp = new STNode(url);
+    if (root->url > url)
     {
         temp->right = root;
         temp->left = root->left;
@@ -205,9 +205,9 @@ STNode *STree::insert(std::string data, STNode *root)
     return temp;
 }
 // Public function to insert  new nodes into the tree.
-void STree::insert(std::string data)
+void STree::insert(std::string url)
 {
-    this->root = this->insert(data, this->root);
+    this->root = this->insert(url, this->root);
 }
 
 // Default constructor.
@@ -245,17 +245,17 @@ void STree::dot_gen(STNode *node, std::ofstream &dotFile)
 {
     if (node != nullptr)
     {
-        dotFile << "\t" << node->data << ";" << std::endl;
+        dotFile << "\t" << node->url << ";" << std::endl;
 
         if (node->left != nullptr)
         {
-            dotFile << "\t" << node->data << " -> " << node->left->data << ";" << std::endl;
+            dotFile << "\t" << node->url << " -> " << node->left->url << ";" << std::endl;
             dot_gen(node->left, dotFile);
         }
 
         if (node->right != nullptr)
         {
-            dotFile << "\t" << node->data << " -> " << node->right->data << ";" << std::endl;
+            dotFile << "\t" << node->url << " -> " << node->right->url << ";" << std::endl;
             dot_gen(node->right, dotFile);
         }
     }
@@ -264,7 +264,7 @@ void STree::dot_gen(STNode *node, std::ofstream &dotFile)
 
 void STree::toJsonHelper(STNode* node, std::ostream& out) {
     if (node != nullptr) {
-        out << "{\"name\": \"" << node->data << "\", \"children\": ";
+        out << "{\"name\": \"" << node->url << "\", \"children\": ";
         if (node->left != nullptr || node->right != nullptr) {
             out << "[";
             toJsonHelper(node->left, out);
@@ -287,4 +287,8 @@ std::string STree::toJson(){
     toJsonHelper(root, jsonStream);
     return jsonStream.str();
 
+}
+
+std::string STree::get_root(){
+    return this->root->url;
 }
