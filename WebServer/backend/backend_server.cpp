@@ -2,6 +2,7 @@
 #include "splay_tree.h"
 
 int main(int argc, char *argv[]) {
+    
     // Create an HTTP server instance using httplib
     httplib::Server backend;
 
@@ -9,23 +10,35 @@ int main(int argc, char *argv[]) {
     STree history;
 
     // Check if command line arguments are provided
+<<<<<<< HEAD
+    if (argc == 1){
+        // TODO: Add logic for handling command line arguments if needed
+=======
     if (argc > 2) {
         std::cout << "ERROR: INVALID CLAS" << std::endl;
         return 0;
     }
     else if(argc == 2){
         history.file_insert(argv[1]);  //Allows initialization of splay treedata via .txt file of urls
+>>>>>>> aa9679d92b98f06f2d076323cf15b77f487956d7
     }
 
     // history.insert("hi");
     // Define an endpoint to handle GET requests for retrieving the tree data
     backend.Get("/get_tree", [&](const httplib::Request& /*req*/, httplib::Response &res) {
-        // Respond with the JSON representation of the splay tree
-        res.set_content(history.toJson(), "application/json");
+        try {
+            // Respond with the JSON representation of the splay tree
+            res.set_content(history.toJson(), "application/json");
+        } catch (const std::exception& e) {
+            // Handle exceptions and respond with an error
+            res.status = 500;
+            res.set_content("{\"error\": \"" + std::string(e.what()) + "\"}", "application/json");
+        }
     });
 
-    // Uncomment the following block if you want to implement a search_tree endpoint
-    /*
+
+
+    // Define the /search_tree endpoint
     backend.Get("/search_tree", [&](const httplib::Request& req, httplib::Response &res) {
         // Extract the search query from the request parameters
         std::string query = req.get_param_value("query");
@@ -44,7 +57,7 @@ int main(int argc, char *argv[]) {
         // Respond with the updated JSON representation of the splay tree
         res.set_content(history.toJson(), "application/json");
     });
-    */
+
 
     // Start the backend server and listen on localhost:8080
     backend.listen("localhost", 8080);

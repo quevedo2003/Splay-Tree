@@ -19,9 +19,16 @@ const svg = d3.select('#tree-container').append('svg')
 function getTreeData() {
     // Fetch tree data from the server
     fetch('/get_tree')
-    .then(response => response.json())
-    // Once data is retrieved, visualize the tree
-    .then(treeData => visualizeTree(treeData));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(treeData => visualizeTree(treeData))
+        .catch(error => {
+            console.error('Error fetching tree data:', error);
+        });
 }
 
 // Function to show a popup menu when clicking on a tree node
@@ -29,7 +36,7 @@ let currentPopupMenu = null;
 function showPopupMenu(event, d) {
     event.preventDefault(); // Prevent default behavior
 
-    if(currentPopupMenu) {
+    if (currentPopupMenu) {
         currentPopupMenu.remove();
         currentPopupMenu = null;
     }
@@ -49,14 +56,52 @@ function showPopupMenu(event, d) {
     popUpMenu.append('button')
         .text('Go to URL')
         .on('click', () => {
-            // Handle button click (to be implemented)
+            searchString();
         });
 
     currentPopupMenu = popUpMenu;
 }
 
+// Function to search for a URL
+function searchString() {
+    // Get the value from the search box
+    const searchBox = document.getElementById('searchBox');
+    const url = searchBox.value.trim();  // Trim leading/trailing whitespaces
+
+    // Perform basic input validation
+    if (!url) {
+        console.log('Please enter a valid URL.');
+        return;
+    }
+
+    // Log the URL to the console for testing
+    console.log('Searching for URL:', url);
+
+    // Perform the actual search operation and update the tree
+    performSearchAndUpdateTree(url);
+
+    // Clear the search box
+    searchBox.value = '';
+}
+
+// Function to perform the search and update the tree
+function performSearchAndUpdateTree(url) {
+    // Fetch and visualize the updated tree data
+    fetch(`/search_tree?query=${url}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(treeData => visualizeTree(treeData))
+        .catch(error => {
+            console.error('Error performing search and updating tree:', error);
+        });
+}
+
 // Function to visualize the tree
-function visualizeTree(treeData){
+function visualizeTree(treeData) {
     // Create a hierarchy and layout for the tree nodes
     const root = d3.hierarchy(treeData);
     // Generate node and link positions based on the tree layout
@@ -77,10 +122,10 @@ function visualizeTree(treeData){
     const nodes = svg.selectAll('.node')
         .data(treeNodes.descendants())
         .enter().append('g')
-        .attr('class','node')
+        .attr('class', 'node')
         .attr('transform', d => `translate(${d.y},${d.x})`)
         .on('click', (event, d) => showPopupMenu(event, d));
-    
+
     // Draw circles representing each tree node
     nodes.append('circle')
         .attr('r', 10);
